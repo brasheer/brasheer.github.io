@@ -12,8 +12,9 @@ footer{
   position:absolute;
   bottom: 0;
   height:2.5 rem;
+  width: 100%
 }
 footer p{
-  width: 100%;
+  margin: 10px auto;
   text-align:center;
 }
