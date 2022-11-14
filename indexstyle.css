@@ -9,5 +9,10 @@ h1{
   font-size: 120px;
 }
 footer{
-  bottom: 0px;
+  position:absolute;
+  bottom: 0;
+  height:2.5 rem;
+}
+footer p{
+  text-align:center;
 }
