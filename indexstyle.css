@@ -1,3 +1,9 @@
 body{
   background-image: url("./20071716_36346125073368.jpg");
 }
+h1{
+  font-size: 120px;
+}
+footer{
+  bottom: 0px;
+}
