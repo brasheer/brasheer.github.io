@@ -1,5 +1,9 @@
 body{
-  background-image: url("./20071716_36346125073368.jpg");
+  background-image: url("./20071716_36346125073368.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 h1{
   font-size: 120px;
