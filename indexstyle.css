@@ -14,5 +14,6 @@ footer{
   height:2.5 rem;
 }
 footer p{
+  width: 100%
   text-align:center;
 }
