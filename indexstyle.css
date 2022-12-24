@@ -5,8 +5,17 @@ html{
   -o-background-size: cover;
   background-size: cover;
 }
-h1{
+.wrapper{
+  max-width: 1200px;
+  height: min-content;
+}
+
+.wrapper h1{
   font-size: 120px;
+  margin: 10px 20px;
+}
+.wrapper p{
+  margin: 10px 20px;
 }
 footer{
   position:absolute;
