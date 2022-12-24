@@ -16,6 +16,7 @@ html{
 }
 .wrapper p{
   margin: 10px 20px;
+  font-size: 2rem;
 }
 footer{
   position:absolute;
