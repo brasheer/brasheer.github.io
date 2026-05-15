@@ -1,4 +1,4 @@
-const CACHE_NAME = 'congen-v7.0.0-cache';
+const CACHE_NAME = 'docbuilder-cache-v1';
 
 // Only caching the absolute minimum shell for offline fallback
 const URLS_TO_CACHE = [
