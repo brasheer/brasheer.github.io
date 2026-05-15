@@ -493,11 +493,31 @@ body {
     background: var(--bg);
     color: var(--bg-contrast-text, #111111);
     min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.main-canvas::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-canvas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-canvas::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.main-canvas::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 .canvas-container {
-    max-width: 1440px;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 
@@ -556,14 +576,28 @@ body {
     top: -20px;
     z-index: 100;
     background: var(--tabs-bg);
-    padding-top: 20px;
+    padding: 8px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid #d1cce6;
-    padding-bottom: 5px;
+    border-radius: 8px;
+}
+
+.tabs-scroll-wrapper {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .tabs-header {
@@ -2834,7 +2868,7 @@ dialog.modal-overlay::backdrop {
 
                 
                 <div class="tabs-container">
-                    <div class="tabs-scroll-wrapper" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; margin-right: 24px;">
+                    <div class="tabs-scroll-wrapper">
                         <button class="tab-scroll-btn tab-scroll-left" onclick="document.getElementById('tabs-header').scrollBy({ left: -200, behavior: 'smooth' });">❮</button>
                         <div class="tabs-header" id="tabs-header"
                             style="border: none; margin-bottom: 0; flex-grow: 1; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
