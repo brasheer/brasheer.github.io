@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>DocBuilder - v7.6.0</title>
+    <title>DocBuilder - v7.7.1</title>
     <style>
 :root {
     --brand: #4F46E5;
@@ -2492,45 +2492,84 @@ dialog.modal-overlay::backdrop {
 }
 </style>
     <style>
-        /* --- Dropdown Action Menu Styles --- */
-        .block-menu-dropdown {
+        /* --- Modern File Dropdown Styles --- */
+        .file-menu-dropdown {
             position: relative;
             display: inline-block;
         }
 
-        .dropdown-content {
+        .file-dropdown-content {
             display: none;
             position: absolute;
             right: 0;
-            background-color: #fefefe;
-            border: 1px solid #ccc;
-            min-width: 150px;
-            z-index: 1000;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-            border-radius: 4px;
-            padding: 4px 0;
+            top: 100%;
+            background-color: #ffffff;
+            min-width: 240px;
+            z-index: 6500;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            padding: 8px;
+            margin-top: 12px;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        .dropdown-content button.icon-btn {
+        .file-menu-dropdown:hover .file-dropdown-content,
+        .file-menu-dropdown:focus-within .file-dropdown-content,
+        .file-dropdown-content.show {
             display: flex;
-            width: 100%;
+            flex-direction: column;
+            gap: 2px;
+            animation: dropFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .file-dropdown-content button {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            border-radius: 0;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
             background: transparent;
-            padding: 8px 12px;
-            color: #333;
-            font-size: 0.9rem;
+            border: none;
+            border-radius: 6px;
             text-align: left;
-            justify-content: flex-start;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
-        .dropdown-content button.icon-btn:hover {
-            background-color: #f0f0f0;
+        .file-dropdown-content button:hover {
+            background-color: #f1f5f9;
+            color: var(--brand, #4f46e5);
+            transform: translateX(2px);
         }
 
-        .dropdown-content.show {
-            display: block;
+        .file-dropdown-content hr {
+            margin: 6px 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .file-dropdown-content button.danger-item {
+            color: #ef4444;
+        }
+
+        .file-dropdown-content button.danger-item:hover {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+
+        @keyframes dropFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .help-modal-button-container {
@@ -2551,7 +2590,7 @@ dialog.modal-overlay::backdrop {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
-                        console.log('ConGen ServiceWorker registered with scope:', registration.scope);
+                        console.log('DocBuilder ServiceWorker registered with scope:', registration.scope);
                     })
                     .catch(error => {
                         console.error('ServiceWorker registration failed:', error);
@@ -2710,21 +2749,22 @@ dialog.modal-overlay::backdrop {
         <nav class="top-navbar">
             <div class="nav-left">
                 <div class="sidebar-header">
-                    <div id="file-menu-dropdown" class="block-menu-dropdown" style="padding-right:20px; margin-right:15px; border-right:1px solid var(--border-glass, rgba(0,0,0,0.1));">
-                        <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="document.getElementById('file-dropdown-content').classList.toggle('show')">
-                            <span class="menu-label-text">File</span>
-                            <span style="font-size: 0.8rem; color: #666;">▼</span>
-                        </div>
-                        <div id="file-dropdown-content" class="dropdown-content" style="left: 0; right: auto; top: 100%; margin-top: 10px;">
-                            <button class="icon-btn" onclick="window.openAndImportFile()">📂 Open Document</button>
-                            <button class="icon-btn" onclick="window.saveInPlace()">💾 Save</button>
-                            <button class="icon-btn" onclick="window.exportManual()">📥 Save As HTML</button>
-                            <button class="icon-btn" onclick="window.print()">🖨️ Print / PDF</button>
-                            <button class="icon-btn" onclick="window.exportJSON()">📦 Export JSON Backup</button>
-                            <button class="icon-btn" onclick="window.importJSON()">🛠️ Import JSON Backup</button>
-                            <hr style="margin: 4px 0; border: none; border-top: 1px solid #eee;">
-                            <button class="icon-btn" style="color: var(--danger);" onclick="window.clearProgress()">🗑️ Clear Workspace</button>
-                        </div>
+                    <div id="master-nav-toggle"
+                        style="display:flex; align-items:center; gap:10px; cursor:pointer; padding-right:20px; margin-right:15px; border-right:1px solid var(--border-glass, rgba(0,0,0,0.1));">
+                        <span class="menu-label-text">MENU</span>
+                        <svg id="sidebarToggle" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                            stroke="url(#concordiaGrad)" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" style="transition: transform 0.3s ease;">
+                            <defs>
+                                <linearGradient id="concordiaGrad" x1="0%" y1="0%" x2="100%" y2="0%"
+                                    gradientTransform="rotate(75)">
+                                    <stop offset="0%" stop-color="#9f11c7" />
+                                    <stop offset="100%" stop-color="#3dcc7d" />
+                                </linearGradient>
+                            </defs>
+                            <polyline points="13 17 18 12 13 7"></polyline>
+                            <polyline points="6 17 11 12 6 7"></polyline>
+                        </svg>
                     </div>
                     <span class="brand-logo-text">DocBuilder</span>
 
@@ -2736,6 +2776,24 @@ dialog.modal-overlay::backdrop {
                     title="Undo (Ctrl+Z)">↩ Undo</button>
                 <button id="btn-redo" class="btn-nav btn-ghost" onclick="window.HistoryManager.redo()"
                     title="Redo (Ctrl+Y)">↪ Redo</button>
+                <div id="file-menu-dropdown" class="file-menu-dropdown"
+                    style="padding-right:20px; margin-right:15px; border-right:1px solid var(--border-glass, rgba(0,0,0,0.1));">
+                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;"
+                        onclick="document.getElementById('file-dropdown-content').classList.toggle('show')">
+                        <span class="menu-label-text">File</span>
+                        <span style="font-size: 0.8rem; color: #666;">▼</span>
+                    </div>
+                    <div id="file-dropdown-content" class="file-dropdown-content">
+                        <button onclick="window.openAndImportFile()">📂 Open Document</button>
+                        <button onclick="window.saveInPlace()">💾 Save</button>
+                        <button onclick="window.exportManual()">📥 Save As HTML</button>
+                        <button onclick="window.print()">🖨️ Print / PDF</button>
+                        <button onclick="window.exportJSON()">📦 Export JSON Backup</button>
+                        <button onclick="window.importJSON()">🛠️ Import JSON Backup</button>
+                        <hr>
+                        <button class="danger-item" onclick="window.clearProgress()">🗑️ Clear Workspace</button>
+                    </div>
+                </div>
                 <button class="btn-nav btn-ghost" onclick="window.HistoryUI.toggle()" title="Version History">🕒
                     History</button>
             </div>
@@ -2748,45 +2806,32 @@ dialog.modal-overlay::backdrop {
                 
 
 
-                
-                <div class="load-panel-wrapper" style="margin-bottom: 25px;">
-                    <div class="load-panel-toggle"
-                        style="background: #e8f4f8; border: 1px solid #bce0ee; padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: border-radius 0.2s;">
-                        <span
-                            style="font-weight: bold; color: #2c3e50; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">📂
-                            Restore Workspace</span>
-                        <span class="toggle-icon"
-                            style="color: #2c3e50; font-size: 0.8rem; transition: transform 0.2s; transform: rotate(180deg);">▼</span>
-                    </div>
-                    <div class="load-panel-content"
-                        style="display: block; background: #fdfdfd; border: 1px solid #bce0ee; border-top: none; padding: 20px; border-radius: 0 0 8px 8px; margin-top: 0;">
-                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
-                            <div style="flex: 1;">
-                                <label style="margin: 0; color: #2c3e50;">Need to edit an old file?</label>
-                                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">Upload a previously
-                                    generated HTML document to restore your workspace.</p>
-                            </div>
-                            <button onclick="openAndImportFile()"
-                                style="cursor: pointer; max-width: 300px; border: 1px solid #cbd5e1; background: white; padding: 8px 16px; border-radius: 4px; box-sizing: border-box; font-weight: 500;">
-                                Select File...
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
 
 
                 
                 <div class="tabs-container">
-                    <div class="tabs-scroll-wrapper" style="position: relative; flex: 1; display: flex; align-items: center; min-width: 0; overflow: hidden;">
-                        <button class="btn-tab-scroll left" onclick="document.getElementById('tabs-header').scrollBy({ left: -200, behavior: 'smooth' });" style="position: absolute; left: 0; z-index: 10; background: linear-gradient(to right, var(--bg, #fff) 60%, transparent); border: none; height: 100%; cursor: pointer; padding: 0 10px 0 5px; color: var(--text-secondary);">&lt;</button>
-                        <div class="tabs-header" id="tabs-header" style="border: none; margin-bottom: 0; flex: 1; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="tabs-scroll-wrapper"
+                        style="position: relative; flex: 1; display: flex; align-items: center; min-width: 0; overflow: hidden;">
+                        <button class="btn-tab-scroll left"
+                            onclick="document.getElementById('tabs-header').scrollBy({ left: -200, behavior: 'smooth' });"
+                            style="position: absolute; left: 0; z-index: 10; background: linear-gradient(to right, var(--bg, #fff) 60%, transparent); border: none; height: 100%; cursor: pointer; padding: 0 10px 0 5px; color: var(--text-secondary);">&lt;</button>
+                        <div class="tabs-header" id="tabs-header"
+                            style="border: none; margin-bottom: 0; flex: 1; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
                             
                         </div>
-                        <button class="btn-tab-scroll right" onclick="document.getElementById('tabs-header').scrollBy({ left: 200, behavior: 'smooth' });" style="position: absolute; right: 0; z-index: 10; background: linear-gradient(to left, var(--bg, #fff) 60%, transparent); border: none; height: 100%; cursor: pointer; padding: 0 5px 0 10px; color: var(--text-secondary);">&gt;</button>
+                        <button class="btn-tab-scroll right"
+                            onclick="document.getElementById('tabs-header').scrollBy({ left: 200, behavior: 'smooth' });"
+                            style="position: absolute; right: 0; z-index: 10; background: linear-gradient(to left, var(--bg, #fff) 60%, transparent); border: none; height: 100%; cursor: pointer; padding: 0 5px 0 10px; color: var(--text-secondary);">&gt;</button>
                     </div>
                     <style>
-                        .tabs-header::-webkit-scrollbar { display: none; }
-                        .btn-tab-scroll:hover { color: var(--brand, #4338ca); }
+                        .tabs-header::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                        .btn-tab-scroll:hover {
+                            color: var(--brand, #4338ca);
+                        }
                     </style>
                     <div class="preview-controls">
                         <label class="sync-toggle-label">
@@ -2794,8 +2839,10 @@ dialog.modal-overlay::backdrop {
                             Sync Navigation with Preview
                         </label>
                         <div class="preview-separator"></div>
-                        <button class="btn-tab-action" onclick="updatePreview()" title="Refresh Preview">↺ Refresh</button>
-                        <button class="btn-tab-action btn-tab-action--popout" onclick="openPopoutPreview()" title="Pop-Out Preview">🖥️ Pop-Out</button>
+                        <button class="btn-tab-action" onclick="updatePreview()" title="Refresh Preview">↺
+                            Refresh</button>
+                        <button class="btn-tab-action btn-tab-action--popout" onclick="openPopoutPreview()"
+                            title="Pop-Out Preview">🖥️ Pop-Out</button>
                     </div>
                 </div>
 
