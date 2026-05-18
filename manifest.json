@@ -1,17 +1,1 @@
-{
-  "name": "DocBuilder",
-  "short_name": "DocBuilder",
-  "description": "A lightweight, dependency-free documentation and presentation builder.",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#fcf8ff",
-  "theme_color": "#4f46e5",
-  "icons": [
-    {
-      "src": "assets/icon.svg",
-      "sizes": "192x192 512x512 any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"DocBuilder","short_name":"DocBuilder","description":"A lightweight, dependency-free documentation and presentation builder.","start_url":"./","display":"standalone","background_color":"#fcf8ff","theme_color":"#4f46e5","icons":[{"src":"assets/icon.svg","sizes":"192x192 512x512 any","type":"image/svg+xml","purpose":"any maskable"}]}
